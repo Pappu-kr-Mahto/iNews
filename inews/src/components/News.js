@@ -34,6 +34,7 @@ export class News extends Component {
     this.props.setProgress(10);
     const url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.keyValue}
     &page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    console.log(this.props.keyValue)
     this.setState.loading=true;
     let data= await fetch(url);
     this.props.setProgress(40); 
@@ -95,8 +96,6 @@ export class News extends Component {
 //   // }
 // }
   fetchMoreData = async () => {
-   
-
     const url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.keyValue}
     &page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
     this.setState({ page : this.state.page + 1 })
@@ -127,9 +126,17 @@ export class News extends Component {
           >
             <div className="container">
           <div className="row my-3">
-            {this.state.articles.map((element) => {
-             return<div key={element.urlToImage} className="col-md-4" ><NewsComponent title={element.title} description={element.description} imageUrl={element.urlToImage}  newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source}/></div>
-            })};
+
+
+            {
+              this.state.articles.length<=0 ? <>
+              Something went Wrong.
+              </>
+              :
+              this.state.articles.map((element) => {
+              return<div key={element.urlToImage} className="col-md-4" ><NewsComponent title={element.title} description={element.description} imageUrl={element.urlToImage}  newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source}/></div>
+            })
+            };
           </div>
           </div>
           </InfiniteScroll>
